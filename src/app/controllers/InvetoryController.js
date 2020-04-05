@@ -10,11 +10,11 @@ class InvetoryController {
 
   async update(req, res) {
     const schema = Yup.object().shape({
-      name: Yup.string(),
+      name: Yup.string().required(),
       location: Yup.string(),
-      amount: Yup.number(),
-      amount_available: Yup.number(),
-      borrowed_amount: Yup.number(),
+      amount: Yup.number().required(),
+      amount_available: Yup.number().required(),
+      borrowed_amount: Yup.number().required(),
     });
 
     if (!(await schema.isValid(req.body))) {
@@ -30,6 +30,13 @@ class InvetoryController {
     }
 
     const item = await Invetory.findByPk(req.params.id);
+
+    if (
+      req.body.borrowed_amount + req.body.amount_available !==
+      req.body.amount
+    ) {
+      return res.status(400).json({ error: "Validation fails" });
+    }
 
     await item.update(req.body);
 
