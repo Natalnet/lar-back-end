@@ -16,6 +16,10 @@ class Invetory extends Model {
     );
     return this;
   }
+
+  static associate(models) {
+    this.hasMany(models.Borrowed, { foreignKey: "item_id", as: "item" });
+  }
 }
 
 export default Invetory;

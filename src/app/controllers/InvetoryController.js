@@ -21,15 +21,18 @@ class InvetoryController {
       return res.status(400).json({ error: "Validation fails" });
     }
 
-    const itemExits = await Invetory.findOne({
-      where: { name: req.body.name },
-    });
-
-    if (itemExits) {
-      return res.status(400).json({ error: "Item already exists" });
-    }
+    const { name } = req.body;
 
     const item = await Invetory.findByPk(req.params.id);
+
+    if (name !== item.name) {
+      const itemExits = await Invetory.findOne({
+        where: { name },
+      });
+      if (itemExits) {
+        return res.status(400).json({ error: "Item already exists" });
+      }
+    }
 
     if (
       req.body.borrowed_amount + req.body.amount_available !==
@@ -42,7 +45,6 @@ class InvetoryController {
 
     const {
       id,
-      name,
       location,
       amount,
       amount_available,
