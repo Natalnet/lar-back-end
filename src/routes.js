@@ -32,5 +32,6 @@ routes.get("/invetory", InvetoryController.index);
 routes.put("/invetory/:id", InvetoryController.update);
 
 routes.post("/borrowed", BorrowedController.store);
+routes.get("/borrowed", BorrowedController.index);
 
 export default routes;
