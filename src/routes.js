@@ -7,6 +7,7 @@ import SessionController from "./app/controllers/SessionController";
 import InvetoryController from "./app/controllers/InvetoryController";
 import FileControler from "./app/controllers/FileController";
 import BorrowedController from "./app/controllers/BorrowedController";
+import UserBorrowedController from "./app/controllers/UserBorrowedController";
 
 import authMiddleware from "./app/middlewares/auth";
 
@@ -33,5 +34,8 @@ routes.put("/invetory/:id", InvetoryController.update);
 
 routes.post("/borrowed", BorrowedController.store);
 routes.get("/borrowed", BorrowedController.index);
+routes.put("/borrowed/:id", BorrowedController.update);
+
+routes.get("/userBorrowed", UserBorrowedController.index);
 
 export default routes;

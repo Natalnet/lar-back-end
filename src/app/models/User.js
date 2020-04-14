@@ -10,6 +10,7 @@ class User extends Model {
         password: Sequelize.VIRTUAL,
         password_hash: Sequelize.STRING,
         project: Sequelize.STRING,
+        administrador: Sequelize.BOOLEAN,
       },
       {
         sequelize,

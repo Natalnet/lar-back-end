@@ -1,5 +1,6 @@
 import * as Yup from "yup";
 import Invetory from "../models/Invetory";
+import User from "../models/User";
 
 class InvetoryController {
   async index(req, res) {
@@ -19,6 +20,14 @@ class InvetoryController {
 
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: "Validation fails" });
+    }
+
+    const { administrador } = await User.findByPk(req.userId);
+
+    if (!administrador) {
+      return res.status(400).json({
+        error: "Apenas adminitradores podem adicionar itens ao inventário",
+      });
     }
 
     const { name } = req.body;
@@ -65,6 +74,14 @@ class InvetoryController {
 
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: "Validation fails" });
+    }
+
+    const { administrador } = await User.findByPk(req.userId);
+
+    if (!administrador) {
+      return res.status(400).json({
+        error: "Apenas adminitradores podem adicionar itens ao inventário",
+      });
     }
 
     const itemExits = await Invetory.findOne({

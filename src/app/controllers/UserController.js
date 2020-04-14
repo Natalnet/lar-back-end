@@ -5,7 +5,14 @@ import File from "../models/File";
 class UserController {
   async index(req, res) {
     const users = await User.findAll({
-      attributes: ["id", "name", "email", "project", "avatar_id"],
+      attributes: [
+        "id",
+        "name",
+        "email",
+        "project",
+        "avatar_id",
+        "administrador",
+      ],
       include: [
         {
           model: File,
@@ -43,6 +50,7 @@ class UserController {
       name: Yup.string(),
       email: Yup.string().email(),
       project: Yup.string(),
+      administrador: Yup.boolean(),
       oldPassword: Yup.string().min(6),
       password: Yup.string()
         .min(6)
@@ -76,9 +84,11 @@ class UserController {
 
     await user.update(req.body);
 
-    const { id, name, project } = await User.findByPk(req.userId);
+    const { id, name, project, administrador } = await User.findByPk(
+      req.userId
+    );
 
-    return res.json({ id, name, email, project });
+    return res.json({ id, name, email, project, administrador });
   }
 }
 export default new UserController();
