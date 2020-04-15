@@ -84,11 +84,20 @@ class UserController {
 
     await user.update(req.body);
 
-    const { id, name, project, administrador } = await User.findByPk(
-      req.userId
+    const { id, name, project, administrador, avatar } = await User.findByPk(
+      req.userId,
+      {
+        include: [
+          {
+            model: File,
+            as: "avatar",
+            attributes: ["id", "path", "url"],
+          },
+        ],
+      }
     );
 
-    return res.json({ id, name, email, project, administrador });
+    return res.json({ id, name, email, project, administrador, avatar });
   }
 }
 export default new UserController();
