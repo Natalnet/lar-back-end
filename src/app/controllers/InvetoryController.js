@@ -4,9 +4,30 @@ import User from "../models/User";
 
 class InvetoryController {
   async index(req, res) {
-    const itens = await Invetory.findAll();
+    const { name, location } = req.query;
 
-    res.json(itens);
+    if (name) {
+      const itens = await Invetory.findAll({
+        where: { name },
+      });
+
+      res.json(itens);
+    } else if (name && location) {
+      const itens = await Invetory.findAll({
+        where: { name, location },
+      });
+
+      res.json(itens);
+    } else if (location) {
+      const itens = await Invetory.findAll({
+        where: { location },
+      });
+      res.json(itens);
+    } else {
+      const itens = await Invetory.findAll();
+
+      res.json(itens);
+    }
   }
 
   async update(req, res) {
