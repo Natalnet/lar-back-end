@@ -34,8 +34,6 @@ class BorrowedController {
       borrowed_amount: parseInt(borrowed_amount) - parseInt(amount),
     });
 
-    console.log(invetory);
-
     return res.json(borrowed);
   }
 
