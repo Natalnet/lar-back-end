@@ -63,8 +63,10 @@ class BorrowedController {
     }
 
     const itemExist = await Borrowed.findAll({
-      where: { item_id, user_id: req.userId },
+      where: { item_id, user_id: req.userId, returned_at: null },
     });
+
+    console.log(itemExist);
 
     if (itemExist.length !== 0) {
       return res
