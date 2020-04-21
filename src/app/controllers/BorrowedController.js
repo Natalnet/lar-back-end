@@ -5,6 +5,12 @@ class BorrowedController {
   async update(req, res) {
     const borrowed = await Borrowed.findByPk(req.params.id);
 
+    const { item_id, amount } = borrowed.dataValues;
+
+    const invetory = await Invetory.findByPk(item_id);
+
+    const { amount_available, borrowed_amount } = invetory;
+
     if (req.userId !== borrowed.user_id) {
       return res
         .status(400)
@@ -22,6 +28,13 @@ class BorrowedController {
     await borrowed.update({
       returned_at: atualDate,
     });
+
+    await invetory.update({
+      amount_available: parseInt(amount_available) + parseInt(amount),
+      borrowed_amount: parseInt(borrowed_amount) - parseInt(amount),
+    });
+
+    console.log(invetory);
 
     return res.json(borrowed);
   }
