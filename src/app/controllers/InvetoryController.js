@@ -4,29 +4,44 @@ import User from "../models/User";
 
 class InvetoryController {
   async index(req, res) {
-    const { name, location } = req.query;
+    const { name, location, page } = req.query;
 
-    if (name) {
+    console.log(name, page, location);
+
+    if (page && name) {
       const itens = await Invetory.findAll({
         where: { name },
+        limit: 10,
+        offset: (page - 1) * 10,
       });
 
-      res.json(itens);
-    } else if (name && location) {
+      return res.json(itens);
+    } else if (page && name && location) {
       const itens = await Invetory.findAll({
         where: { name, location },
+        limit: 10,
+        offset: (page - 1) * 10,
       });
 
-      res.json(itens);
-    } else if (location) {
+      return res.json(itens);
+    } else if (page && location) {
       const itens = await Invetory.findAll({
         where: { location },
+        limit: 10,
+        offset: (page - 1) * 10,
       });
-      res.json(itens);
+
+      return res.json(itens);
+    } else if (page) {
+      const itens = await Invetory.findAll({
+        limit: 10,
+        offset: (page - 1) * 10,
+      });
+
+      return res.json(itens);
     } else {
       const itens = await Invetory.findAll();
-
-      res.json(itens);
+      return res.json(itens);
     }
   }
 
