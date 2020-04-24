@@ -38,19 +38,38 @@ class BorrowedController {
   }
 
   async index(req, res) {
-    const borrowed = await Borrowed.findAll({
-      where: { user_id: req.userId, returned_at: null },
-      attributes: ["id", "amount", "user_id", "item_id", "returned_at"],
-      include: [
-        {
-          model: Invetory,
-          as: "item",
-          attributes: ["name"],
-        },
-      ],
-    });
+    const { name } = req.query;
 
-    return res.json(borrowed);
+    if (name) {
+      const borrowed = await Borrowed.findAll({
+        where: { user_id: req.userId, returned_at: null },
+        attributes: ["id", "amount", "user_id", "item_id", "returned_at"],
+        include: [
+          {
+            model: Invetory,
+            as: "item",
+            attributes: ["name"],
+            where: { name },
+          },
+        ],
+      });
+
+      return res.json(borrowed);
+    } else {
+      const borrowed = await Borrowed.findAll({
+        where: { user_id: req.userId, returned_at: null },
+        attributes: ["id", "amount", "user_id", "item_id", "returned_at"],
+        include: [
+          {
+            model: Invetory,
+            as: "item",
+            attributes: ["name"],
+          },
+        ],
+      });
+
+      return res.json(borrowed);
+    }
   }
 
   async store(req, res) {
