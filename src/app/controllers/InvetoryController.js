@@ -6,8 +6,6 @@ class InvetoryController {
   async index(req, res) {
     const { name, location, page } = req.query;
 
-    console.log(name, page, location);
-
     if (page && name) {
       const itens = await Invetory.findAll({
         where: { name },
@@ -36,6 +34,24 @@ class InvetoryController {
       const itens = await Invetory.findAll({
         limit: 10,
         offset: (page - 1) * 10,
+      });
+
+      return res.json(itens);
+    } else if (name) {
+      const itens = await Invetory.findAll({
+        where: { name },
+      });
+
+      return res.json(itens);
+    } else if (name && location) {
+      const itens = await Invetory.findAll({
+        where: { name, location },
+      });
+
+      return res.json(itens);
+    } else if (location) {
+      const itens = await Invetory.findAll({
+        where: { location },
       });
 
       return res.json(itens);

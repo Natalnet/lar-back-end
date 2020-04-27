@@ -36,7 +36,7 @@ class SessionController {
       return res.status(401).json({ error: "Password not match" });
     }
 
-    const { id, name, project, avatar } = user;
+    const { id, name, project, avatar, administrador } = user;
 
     return res.json({
       user: {
@@ -45,6 +45,7 @@ class SessionController {
         email,
         avatar,
         project,
+        administrador,
       },
       token: jwt.sign({ id }, "LarWeb", {
         expiresIn: "7d",
