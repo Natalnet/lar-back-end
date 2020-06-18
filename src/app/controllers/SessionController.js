@@ -48,7 +48,7 @@ class SessionController {
         administrador,
       },
       token: jwt.sign({ id }, "LarWeb", {
-        expiresIn: "7d",
+        expiresIn: "365d",
       }),
     });
   }
